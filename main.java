@@ -1,12 +1,25 @@
+import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.List;
+import javax.swing.*;
 
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         DecimalFormat formatter = new DecimalFormat("#,###");
-//        long duplicateEntry = 0;
-//        long duplicateThreshold = 50;
+        long duplicateEntry = 0;
+        long duplicateThreshold = 50;
+
+        JFrame frame = new JFrame("Live attempt count:"); // create a new frame
+        JLabel label = new JLabel("Attempts: "); // create a new label with initial value 0
+        JLabel jackpotNumbers = new JLabel("Jackpot Numbers: ");
+
+
+        frame.add(label); // add the label to the frame
+        frame.pack(); // resize the frame to fit the label
+        frame.setBounds(new Rectangle(200,100));
+        frame.setVisible(true); // show the frame
 
         long moneySpent = 0;
         long attempts = 0;
@@ -22,11 +35,15 @@ public class Main {
 
         System.out.println("Winning lottery numbers are " + powerballNumbers);
 
+        jackpotNumbers.setText("Winning lottery numbers are: : " + powerballNumbers);
+
         List<Integer> playerEntry = new ArrayList<>();
-        //HashMap<List<Integer>, String > duplicates = new HashMap<>();
+
+        
+        HashSet<List<Integer>> duplicates = new HashSet<>();
 
         populateArray(playerEntry);
-        //duplicates.put(playerEntry.stream().toList(),"true");
+        duplicates.add(playerEntry);
 
         System.out.println("Attempting to win the lottery...");
 
@@ -37,6 +54,7 @@ public class Main {
             moneySpent+=2;
             playerEntry.clear();
             populateArray(playerEntry);
+
 
 //            if(duplicates.containsKey(playerEntry.stream().toList()))
 //            {
@@ -65,6 +83,8 @@ public class Main {
                 threshold*=2;
             }
 
+            label.setText("Attempts: " + formatter.format(attempts) );
+
 
         }
         System.out.println("Jackpot!");
@@ -79,9 +99,9 @@ public class Main {
         Random rand = new Random();
         for (int i = 0; i < 5; i++)
         {
-            list.add(rand.nextInt(1, 69));
+            list.add(rand.nextInt(1, 70));
         }
-        list.add(rand.nextInt(1,26));
+        list.add(rand.nextInt(1,25));
     }
 
 
