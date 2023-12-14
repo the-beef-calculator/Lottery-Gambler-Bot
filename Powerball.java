@@ -1,12 +1,11 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Random;
 
 public class Powerball
 {
-    private int[] powerBall5;
+    private HashSet<Integer> powerBall5;
     private int jackpotNumber;
+    int randInt;
 
 
     public Powerball(boolean isFirstPowerball)
@@ -16,51 +15,48 @@ public class Powerball
         {
             System.out.println("Generating winning Powerball numbers...");
         }
-        powerBall5 = new int[5];
-
+        powerBall5 = new HashSet<>();
         for (int i = 0; i < 5; i++)
         {
-            powerBall5[i] = rand.nextInt(1,70); // Generating random numbers from 1-69
+            randInt = rand.nextInt(1,70);  // Generating random numbers from 1-69
+            while(powerBall5.contains(randInt))
+            {
+               randInt = rand.nextInt(1,70);
+            }
+            powerBall5.add(randInt);
         }
+
         jackpotNumber = rand.nextInt(1,27); // Generating random number from 1-26
 
         if (isFirstPowerball)
         {
             System.out.println("Finished!");
-            System.out.println("Winning Lottery numbers are: " + Arrays.toString(powerBall5) + "\nJackpot: " + jackpotNumber );
+            System.out.println("Winning Lottery numbers are: " + powerBall5.toString() + "\nJackpot: " + jackpotNumber );
         }
 
     }
 
     public void regenerateNumbers()
     {
+        powerBall5.clear();
         Random rand = new Random();
         for (int i = 0; i < 5; i++)
         {
-            powerBall5[i] = rand.nextInt(1,70); // Generating random numbers from 1-69
+            randInt = rand.nextInt(1,70);  // Generating random numbers from 1-69
+            while(powerBall5.contains(randInt))
+            {
+                randInt = rand.nextInt(1,70);
+            }
+            powerBall5.add(randInt);
         }
-        jackpotNumber = rand.nextInt(1,27); // Generating random number from 1-26
-    }
 
-    private Map<Integer, Integer> getFrequencyMap(int[] array)
-    {
-        Map<Integer,Integer> freqMap = new HashMap<>();
-
-        for (int num : array)
-        {
-            freqMap.put(num, freqMap.getOrDefault(num,0) + 1);
-        }
-        return freqMap;
+        jackpotNumber = rand.nextInt(1,27);
     }
 
 
     public boolean equals(Powerball other)
     {
-        Map<Integer, Integer> thisFreqMap = getFrequencyMap(this.powerBall5);
-        Map<Integer, Integer> otherFreqMap = getFrequencyMap(other.powerBall5);
-
-        return (thisFreqMap.equals(otherFreqMap) && this.jackpotNumber == other.jackpotNumber);
-
+        return (this.powerBall5.equals(other.powerBall5) && this.jackpotNumber == other.jackpotNumber);
     }
 
 
